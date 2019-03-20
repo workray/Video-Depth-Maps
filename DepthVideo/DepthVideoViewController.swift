@@ -116,46 +116,6 @@ extension DepthVideoViewController {
     }
 }
 
-// MARK: - Capture Video Data Delegate Methods
-
-extension DepthVideoViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
-    
-    func captureOutput(_ output: AVCaptureOutput,
-                       didOutput sampleBuffer: CMSampleBuffer,
-                       from connection: AVCaptureConnection) {
-        
-        let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
-        let image = CIImage(cvPixelBuffer: pixelBuffer!)
-        
-        let previewImage: CIImage
-        
-        switch previewMode {
-        case .original:
-            previewImage = image
-        case .depth:
-            previewImage = depthMap ?? image
-        case .mask:
-            previewImage = mask ?? image
-        case .filtered:
-            if let mask = mask {
-                switch filter {
-                case .comic:
-                    previewImage = depthFilters.comic(image: image, mask: mask)
-                default:
-                    previewImage = image
-                }
-            } else {
-                previewImage = image
-            }
-        }
-        
-        let displayImage = UIImage(ciImage: previewImage)
-        DispatchQueue.main.async { [weak self] in
-            self?.previewView.image = displayImage
-        }
-    }
-}
-
 // MARK: - Slider Methods
 
 extension DepthVideoViewController {
@@ -187,6 +147,55 @@ extension DepthVideoViewController {
     }
 }
 
+// MARK: - Capture Video Data Delegate Methods
+
+extension DepthVideoViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
+    
+    func captureOutput(_ output: AVCaptureOutput,
+                       didOutput sampleBuffer: CMSampleBuffer,
+                       from connection: AVCaptureConnection) {
+        
+        let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer)
+        let image = CIImage(cvPixelBuffer: pixelBuffer!)
+        
+        let previewImage: CIImage
+        
+        switch previewMode {
+        case .original:
+            previewImage = image
+        case .depth:
+            previewImage = depthMap ?? image
+        case .mask:
+            previewImage = mask ?? image
+        case .filtered:
+            if let mask = mask {
+                switch filter {
+                case .comic:
+                    previewImage = depthFilters.comic(image: image, mask: mask)
+                case .greenScreen:
+                    if let background = background {
+                        previewImage = depthFilters.greenScreen(image: image,
+                                                                background: background,
+                                                                mask: mask)
+                    } else {
+                        previewImage = image
+                    }
+
+                default:
+                    previewImage = image
+                }
+            } else {
+                previewImage = image
+            }
+        }
+        
+        let displayImage = UIImage(ciImage: previewImage)
+        DispatchQueue.main.async { [weak self] in
+            self?.previewView.image = displayImage
+        }
+    }
+}
+
 // MARK: - Capture Depth Data Delegate Methods
 
 extension DepthVideoViewController: AVCaptureDepthDataOutputDelegate {
@@ -214,6 +223,11 @@ extension DepthVideoViewController: AVCaptureDepthDataOutputDelegate {
                 mask = depthFilters.createHighPassMask(for: depthMap,
                                                        withFocus: sliderValue,
                                                        andScale: scale)
+            case .greenScreen:
+                mask = depthFilters.createHighPassMask(for: depthMap,
+                                                       withFocus: sliderValue,
+                                                       andScale: scale,
+                                                       isSharp: true)
             default:
                 mask = depthFilters.createHighPassMask(for: depthMap,
                                                        withFocus: sliderValue,

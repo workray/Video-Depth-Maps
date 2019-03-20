@@ -80,5 +80,16 @@ class DepthImageFilters {
                                                          "inputMaskImage": mask])
         return filtered
     }
-
+    func greenScreen(image: CIImage, background: CIImage, mask: CIImage) -> CIImage {
+        let crop = CIVector(x: 0,
+                            y: 0,
+                            z: image.extent.size.width,
+                            w: image.extent.size.height)
+        let croppedBG = background.applyingFilter("CICrop",
+                                                  parameters: ["inputRectangle": crop])
+        let filtered = image.applyingFilter("CIBlendWithMask",
+                                            parameters: ["inputBackgroundImage": croppedBG,
+                                                         "inputMaskImage": mask])
+        return filtered
+    }
 }
