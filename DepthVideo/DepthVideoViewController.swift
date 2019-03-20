@@ -180,9 +180,8 @@ extension DepthVideoViewController: AVCaptureVideoDataOutputSampleBufferDelegate
                     } else {
                         previewImage = image
                     }
-
-                default:
-                    previewImage = image
+                case .blur:
+                    previewImage = depthFilters.blur(image: image, mask: mask)
                 }
             } else {
                 previewImage = image
@@ -228,8 +227,8 @@ extension DepthVideoViewController: AVCaptureDepthDataOutputDelegate {
                                                        withFocus: sliderValue,
                                                        andScale: scale,
                                                        isSharp: true)
-            default:
-                mask = depthFilters.createHighPassMask(for: depthMap,
+            case .blur:
+                mask = depthFilters.createBandPassMask(for: depthMap,
                                                        withFocus: sliderValue,
                                                        andScale: scale)
             }

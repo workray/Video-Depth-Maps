@@ -92,4 +92,20 @@ class DepthImageFilters {
                                                          "inputMaskImage": mask])
         return filtered
     }
+    
+    func blur(image: CIImage, mask: CIImage) -> CIImage {
+        let blurRadius: CGFloat = 10
+        let crop = CIVector(x: 0,
+                            y: 0,
+                            z: image.extent.size.width,
+                            w: image.extent.size.height)
+        let invertedMask = mask.applyingFilter("CIColorInvert")
+        let blurred = image.applyingFilter("CIMaskedVariableBlur",
+                                           parameters: ["inputMask": invertedMask,
+                                                        "inputRadius": blurRadius])
+        let filtered = blurred.applyingFilter("CICrop",
+                                              parameters: ["inputRectangle": crop])
+        return filtered
+    }
+
 }
