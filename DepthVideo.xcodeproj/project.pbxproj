@@ -8,20 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		1EF348A72242518C00AA81DA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF348A62242518C00AA81DA /* AppDelegate.swift */; };
-		1EF348A92242518C00AA81DA /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF348A82242518C00AA81DA /* ViewController.swift */; };
+		1EF348A92242518C00AA81DA /* DepthVideoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF348A82242518C00AA81DA /* DepthVideoViewController.swift */; };
 		1EF348AC2242518C00AA81DA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EF348AA2242518C00AA81DA /* Main.storyboard */; };
 		1EF348AE2242518D00AA81DA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1EF348AD2242518D00AA81DA /* Assets.xcassets */; };
 		1EF348B12242518D00AA81DA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1EF348AF2242518D00AA81DA /* LaunchScreen.storyboard */; };
+		1EF348BA2242537900AA81DA /* earth_rise.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1EF348B92242537900AA81DA /* earth_rise.jpg */; };
+		1EF348BD224253D000AA81DA /* CVPixelBuffer+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF348BC224253D000AA81DA /* CVPixelBuffer+Extension.swift */; };
+		1EF348C0224253EC00AA81DA /* ControlEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF348BF224253EC00AA81DA /* ControlEnums.swift */; };
+		1EF348C2224253FA00AA81DA /* DepthImageFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EF348C1224253FA00AA81DA /* DepthImageFilters.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1EF348A32242518C00AA81DA /* DepthVideo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DepthVideo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1EF348A62242518C00AA81DA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1EF348A82242518C00AA81DA /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		1EF348A82242518C00AA81DA /* DepthVideoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepthVideoViewController.swift; sourceTree = "<group>"; };
 		1EF348AB2242518C00AA81DA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1EF348AD2242518D00AA81DA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1EF348B02242518D00AA81DA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1EF348B22242518D00AA81DA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1EF348B92242537900AA81DA /* earth_rise.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = earth_rise.jpg; sourceTree = "<group>"; };
+		1EF348BC224253D000AA81DA /* CVPixelBuffer+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CVPixelBuffer+Extension.swift"; sourceTree = "<group>"; };
+		1EF348BF224253EC00AA81DA /* ControlEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlEnums.swift; sourceTree = "<group>"; };
+		1EF348C1224253FA00AA81DA /* DepthImageFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepthImageFilters.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,14 +62,42 @@
 		1EF348A52242518C00AA81DA /* DepthVideo */ = {
 			isa = PBXGroup;
 			children = (
+				1EF348BE224253E000AA81DA /* Utilities */,
+				1EF348BB224253BE00AA81DA /* Extensions */,
 				1EF348A62242518C00AA81DA /* AppDelegate.swift */,
-				1EF348A82242518C00AA81DA /* ViewController.swift */,
+				1EF348A82242518C00AA81DA /* DepthVideoViewController.swift */,
+				1EF348B82242536200AA81DA /* Resources */,
+			);
+			path = DepthVideo;
+			sourceTree = "<group>";
+		};
+		1EF348B82242536200AA81DA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
 				1EF348AA2242518C00AA81DA /* Main.storyboard */,
 				1EF348AD2242518D00AA81DA /* Assets.xcassets */,
 				1EF348AF2242518D00AA81DA /* LaunchScreen.storyboard */,
 				1EF348B22242518D00AA81DA /* Info.plist */,
+				1EF348B92242537900AA81DA /* earth_rise.jpg */,
 			);
-			path = DepthVideo;
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		1EF348BB224253BE00AA81DA /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				1EF348BC224253D000AA81DA /* CVPixelBuffer+Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		1EF348BE224253E000AA81DA /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				1EF348BF224253EC00AA81DA /* ControlEnums.swift */,
+				1EF348C1224253FA00AA81DA /* DepthImageFilters.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,6 +161,7 @@
 				1EF348B12242518D00AA81DA /* LaunchScreen.storyboard in Resources */,
 				1EF348AE2242518D00AA81DA /* Assets.xcassets in Resources */,
 				1EF348AC2242518C00AA81DA /* Main.storyboard in Resources */,
+				1EF348BA2242537900AA81DA /* earth_rise.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,7 +172,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1EF348A92242518C00AA81DA /* ViewController.swift in Sources */,
+				1EF348A92242518C00AA81DA /* DepthVideoViewController.swift in Sources */,
+				1EF348BD224253D000AA81DA /* CVPixelBuffer+Extension.swift in Sources */,
+				1EF348C0224253EC00AA81DA /* ControlEnums.swift in Sources */,
+				1EF348C2224253FA00AA81DA /* DepthImageFilters.swift in Sources */,
 				1EF348A72242518C00AA81DA /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -283,7 +323,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = DepthVideo/Info.plist;
+				DEVELOPMENT_TEAM = XLZM74ZT88;
+				INFOPLIST_FILE = "$(SRCROOT)/DepthVideo/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -300,7 +341,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = DepthVideo/Info.plist;
+				DEVELOPMENT_TEAM = XLZM74ZT88;
+				INFOPLIST_FILE = "$(SRCROOT)/DepthVideo/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
