@@ -90,6 +90,14 @@ extension DepthVideoViewController {
         
         let videoConnection = videoOutput.connection(with: .video)
         videoConnection?.videoOrientation = .portrait
+        
+        let depthOutput = AVCaptureDepthDataOutput()
+        depthOutput.setDelegate(self, callbackQueue: dataOutputQueue)
+        depthOutput.isFilteringEnabled = true
+        session.addOutput(depthOutput)
+        let depthConnection = depthOutput.connection(with: .depthData)
+        depthConnection?.videoOrientation = .portrait
+
     }
 }
 
@@ -109,6 +117,8 @@ extension DepthVideoViewController: AVCaptureVideoDataOutputSampleBufferDelegate
         switch previewMode {
         case .original:
             previewImage = image
+        case .depth:
+            previewImage = depthMap ?? image
         default:
             previewImage = image
         }
@@ -148,5 +158,32 @@ extension DepthVideoViewController {
     
     @IBAction func filterTypeChanged(_ sender: UISegmentedControl) {
         filter = FilterType(rawValue: filterControl.selectedSegmentIndex) ?? .comic
+    }
+}
+
+// MARK: - Capture Depth Data Delegate Methods
+
+extension DepthVideoViewController: AVCaptureDepthDataOutputDelegate {
+    
+    func depthDataOutput(_ output: AVCaptureDepthDataOutput,
+                         didOutput depthData: AVDepthData,
+                         timestamp: CMTime,
+                         connection: AVCaptureConnection) {
+        if previewMode == .original {
+            return
+        }
+        
+        var convertedDepth: AVDepthData
+        if depthData.depthDataType != kCVPixelFormatType_DisparityFloat32 {
+            convertedDepth = depthData.converting(toDepthDataType: kCVPixelFormatType_DisparityFloat32)
+        } else {
+            convertedDepth = depthData
+        }
+        let pixelBuffer = convertedDepth.depthDataMap
+        pixelBuffer.clamp()
+        let depthMap = CIImage(cvPixelBuffer: pixelBuffer)
+        DispatchQueue.main.async { [weak self] in
+            self?.depthMap = depthMap
+        }
     }
 }
