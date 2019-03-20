@@ -72,4 +72,13 @@ class DepthImageFilters {
         
         return mask
     }
+    
+    func comic(image: CIImage, mask: CIImage) -> CIImage {
+        let bg = image.applyingFilter("CIComicEffect")
+        let filtered = image.applyingFilter("CIBlendWithMask",
+                                            parameters: ["inputBackgroundImage": bg,
+                                                         "inputMaskImage": mask])
+        return filtered
+    }
+
 }

@@ -136,8 +136,17 @@ extension DepthVideoViewController: AVCaptureVideoDataOutputSampleBufferDelegate
             previewImage = depthMap ?? image
         case .mask:
             previewImage = mask ?? image
-        default:
-            previewImage = image
+        case .filtered:
+            if let mask = mask {
+                switch filter {
+                case .comic:
+                    previewImage = depthFilters.comic(image: image, mask: mask)
+                default:
+                    previewImage = image
+                }
+            } else {
+                previewImage = image
+            }
         }
         
         let displayImage = UIImage(ciImage: previewImage)
@@ -201,6 +210,10 @@ extension DepthVideoViewController: AVCaptureDepthDataOutputDelegate {
         let depthMap = CIImage(cvPixelBuffer: pixelBuffer)
         if previewMode == .mask || previewMode == .filtered {
             switch filter {
+            case .comic:
+                mask = depthFilters.createHighPassMask(for: depthMap,
+                                                       withFocus: sliderValue,
+                                                       andScale: scale)
             default:
                 mask = depthFilters.createHighPassMask(for: depthMap,
                                                        withFocus: sliderValue,
