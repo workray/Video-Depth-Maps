@@ -98,6 +98,21 @@ extension DepthVideoViewController {
         let depthConnection = depthOutput.connection(with: .depthData)
         depthConnection?.videoOrientation = .portrait
 
+        let outputRect = CGRect(x: 0, y: 0, width: 1, height: 1)
+        let videoRect = videoOutput.outputRectConverted(fromMetadataOutputRect: outputRect)
+        let depthRect = depthOutput.outputRectConverted(fromMetadataOutputRect: outputRect)
+        
+        scale = max(videoRect.width, videoRect.height) / max(depthRect.width, depthRect.height)
+        do {
+            try camera.lockForConfiguration()
+            if let frameDuration = camera.activeDepthDataFormat?
+                .videoSupportedFrameRateRanges.first?.minFrameDuration {
+                camera.activeVideoMinFrameDuration = frameDuration
+            }
+            camera.unlockForConfiguration()
+        } catch {
+            fatalError(error.localizedDescription)
+        }
     }
 }
 
